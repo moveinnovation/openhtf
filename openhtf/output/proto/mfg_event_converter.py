@@ -40,6 +40,7 @@ from openhtf.output.proto import test_runs_pb2
 from openhtf.util import data as htf_data
 from openhtf.util import units
 from openhtf.util import validators
+from openhtf.util import json_encoder
 
 TEST_RECORD_ATTACHMENT_NAME = 'OpenHTF_record.json'
 
@@ -233,12 +234,12 @@ def _convert_object_to_json(obj):  # pylint: disable=missing-function-docstring
     else:
       raise TypeError(repr(o) + ' is not JSON serializable')
 
-  json_encoder = json.JSONEncoder(
+  encoder = json_encoder.TestRecordEncoder(
       sort_keys=True,
       indent=2,
       ensure_ascii=False,
       default=unsupported_type_handler)
-  return json_encoder.encode(obj).encode('utf-8', errors='replace')
+  return encoder.encode(obj).encode('utf-8', errors='replace')
 
 
 def _attach_config(mfg_event, record):

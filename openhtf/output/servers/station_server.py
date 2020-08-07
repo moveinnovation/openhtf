@@ -41,6 +41,7 @@ from openhtf.util import functions
 from openhtf.util import multicast
 from openhtf.util import timeouts
 import sockjs.tornado
+from openhtf.util import json_encoder
 
 CONF = configuration.CONF
 
@@ -589,6 +590,11 @@ class StationServer(web_gui_server.WebGuiServer):
     tornado_logger.propagate = False
     if not tornado_logger.handlers:
       tornado_logger.addHandler(logging.NullHandler())
+
+    # Override tornado's json encoding to handle our Attachments.
+    def _json_encode(value):
+      return json_encoder.TestRecordEncoder().encode(value)
+    sockjs.tornado.proto.json_encode = _json_encode
 
     # Bind port early so that the correct port number can be used in the routes.
     sockets, port = web_gui_server.bind_port(int(CONF.station_server_port))

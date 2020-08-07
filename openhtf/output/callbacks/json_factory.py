@@ -21,17 +21,7 @@ from typing import Any, BinaryIO, Callable, Dict, Iterator, Text, Union
 from openhtf.core import test_record
 from openhtf.output import callbacks
 from openhtf.util import data
-
-
-class TestRecordEncoder(json.JSONEncoder):
-
-  def default(self, obj: Any) -> Any:
-    if isinstance(obj, test_record.Attachment):
-      dct = obj._asdict()
-      dct['data'] = base64.standard_b64encode(obj.data).decode('utf-8')
-      return dct
-    return super(TestRecordEncoder, self).default(obj)
-
+from openhtf.util import json_encoder
 
 def convert_test_record_to_json(
     test_rec: test_record.TestRecord,
@@ -71,11 +61,11 @@ def stream_json(
   Returns:
     Iterable of JSON strings.
   """
-  json_encoder = TestRecordEncoder(allow_nan=allow_nan, **kwargs)
+  encoder = json_encoder.TestRecordEncoder(allow_nan=allow_nan, **kwargs)
 
   # The iterencode return type in typeshed for PY2 is wrong; not worried about
   # fixing it as we are dropping PY2 support soon.
-  return json_encoder.iterencode(encoded_test_rec)  # pytype: disable=bad-return-type
+  return encoder.iterencode(encoded_test_rec)  # pytype: disable=bad-return-type
 
 
 class OutputToJSON(callbacks.OutputToFile):
