@@ -19,13 +19,7 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
-
-// TODO(Kenadia): Find an open-source implementation of the `relative` function.
-const relative = {
-  format(_value: number) {
-    return '—';
-  }
-};
+import { format } from 'timeago.js';
 
 @Pipe({
   name: 'timeAgo',
@@ -33,6 +27,6 @@ const relative = {
 })
 export class TimeAgoPipe implements PipeTransform {
   transform(value: number): string {
-    return relative.format(value);
+    return format(value);
   }
 }
