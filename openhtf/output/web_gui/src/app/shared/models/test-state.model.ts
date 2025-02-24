@@ -52,6 +52,7 @@ export class TestState {
   status: TestStatus;
   // This is the execution UID. It is null for tests retrieved from the history.
   testId: string|null;
+  outcomeDetails: {code: string|number; description: string}[];
 
   // Using the class as the interface for its own constructor allows us to call
   // the constructor in named-argument style.

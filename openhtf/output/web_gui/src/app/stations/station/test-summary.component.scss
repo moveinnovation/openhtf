@@ -39,6 +39,44 @@ htf-progress-bar {
   padding: 0;
 }
 
+.outcome-details {
+
+  .code {
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+
+
+  &.ng-status-fail .code {
+    // background: rgba($theme-red, .1);
+    color: darken($theme-red, 10%);
+  }
+
+  // This is unused.
+  // &.ng-status-online {}
+
+  &.ng-status-pass .code {
+    // background: rgba($theme-green, .1);
+    color: darken($theme-green, 10%);
+  }
+
+  // Use default styling.
+  // &.ng-status-pending {}
+
+  &.ng-status-running .code {
+    // background: rgba($theme-blue, .1);
+    color: darken($theme-blue, 10%);
+  }
+
+  // This is unused.
+  // &.ng-status-unreachable {}
+
+  &.ng-status-warning .code {
+    // background: rgba($theme-yellow, .18);
+    color: darken($theme-yellow, 20%);
+  }
+}
+
 :host ::ng-deep htf-phase .phase-name {
   font-weight: bold;
 

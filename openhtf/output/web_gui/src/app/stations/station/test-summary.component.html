@@ -52,6 +52,17 @@
   <div *ngIf="runningPhase !== null" class="phase-container htf-layout-widget-body">
     <htf-phase [phase]="runningPhase" [expand]="true"></htf-phase>
   </div>
+
+  <div *ngIf="test.outcomeDetails && test.outcomeDetails.length > 0" class="htf-layout-widget-body outcome-details"
+      [ngClass]="test.status | statusToClass">
+    <div>
+      <ul class="htf-layout-widget-list">
+        <li *ngFor="let outcome of test.outcomeDetails">
+            <span class="code">{{ outcome.code }}:</span> {{ outcome.description }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <!-- Empty state -->

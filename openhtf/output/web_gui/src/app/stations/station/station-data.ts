@@ -75,7 +75,7 @@ export interface RawTestRecord {
   log_records: RawLogRecord[];
   metadata: RawMetadata;
   outcome: string;
-  outcome_details: Array<{}>;
+  outcome_details: Array<{code: string|number; description: string}>;
   phases: RawPhase[];
   start_time_millis: number;
   station_id: string;
@@ -162,6 +162,8 @@ export function makeTest(
     status = testStateStatusMap[rawState.status];
   }
 
+  const outcomeDetails = rawState.test_record.outcome_details;
+
   return new TestState({
     attachments,
     dutId: rawState.test_record.dut_id,
@@ -176,6 +178,7 @@ export function makeTest(
     station,
     status,
     testId,
+    outcomeDetails,
   });
 }
 
