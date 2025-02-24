@@ -25,6 +25,10 @@
 
   &.is-complete {
     animation: htf-progress-bar-pulse 2s infinite;
+
+    .stripes {
+      animation: none;
+    }
   }
 }
 
