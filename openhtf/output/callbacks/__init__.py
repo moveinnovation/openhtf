@@ -26,6 +26,7 @@ import shutil
 import tempfile
 import typing
 from typing import BinaryIO, Callable, Iterator, Optional, Text, Union
+import re
 
 from openhtf import util
 from openhtf.core import test_record
@@ -107,8 +108,10 @@ class OutputToFile(object):
     # Ignore keys for the log filename to not convert larger data structures.
     record_dict = data.convert_to_base_types(
         test_rec, ignore_keys=('code_info', 'phases', 'log_records'))
-    return typing.cast(Text,
-                       util.format_string(self.filename_pattern, record_dict))
+    s = util.format_string(self.filename_pattern, record_dict)
+    # Sanitize the string to a valid filename
+    s = re.sub(r"(?u)[^-\w./]", "_", s)
+    return typing.cast(Text, s)
 
   @contextlib.contextmanager
   def open_output_file(
