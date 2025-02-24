@@ -667,12 +667,15 @@ class StationServer(web_gui_server.WebGuiServer):
            }),
       ))
 
+    self.history_path = history_path
+
     super(StationServer, self).__init__(routes, port, sockets=sockets)
     self.station_multicast = StationMulticast(port)
 
   def _get_config(self):
     return {
         'server_type': STATION_SERVER_TYPE,
+        'history_from_disk_enabled': self.history_path is not None,
     }
 
   def run(self) -> None:

@@ -30,6 +30,7 @@ import logging
 import numbers
 import os
 import sys
+import base64
 from typing import Mapping, Optional, Tuple
 
 from openhtf.core import measurements
@@ -227,6 +228,10 @@ def _convert_object_to_json(obj):  # pylint: disable=missing-function-docstring
 
   def unsupported_type_handler(o):
     # For bytes, JSONEncoder will fallback to this function to convert to str.
+    if isinstance(o, htf_test_record.Attachment):
+      dct = o._asdict()
+      dct['data'] = base64.standard_b64encode(obj.data).decode('utf-8')
+      return dct
     if isinstance(o, bytes):
       return o.decode(encoding='utf-8', errors='replace')
     elif isinstance(o, (datetime.date, datetime.datetime)):

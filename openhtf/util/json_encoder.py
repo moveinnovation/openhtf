@@ -21,9 +21,15 @@ from openhtf.core import test_record
 class TestRecordEncoder(json.JSONEncoder):
   """JSON encoder that supports Attachments."""
 
+  def __init__(self, default=None, **kwargs):
+    self._default_fallback = default
+    super(TestRecordEncoder, self).__init__(**kwargs)
+
   def default(self, obj):
     if isinstance(obj, test_record.Attachment):
       dct = obj._asdict()
       dct['data'] = base64.standard_b64encode(obj.data).decode('utf-8')
       return dct
+    if self._default_fallback is not None:
+      return self._default_fallback(obj)
     return super(TestRecordEncoder, self).default(obj)
