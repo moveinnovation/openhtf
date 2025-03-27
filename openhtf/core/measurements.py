@@ -567,10 +567,11 @@ class MeasuredValue(object):
       # While we want to *allow* re-setting previously set measurements, we'd
       # rather promote the use of multidimensional measurements instead of
       # discarding data, so we make this somewhat chatty.
-      _LOG.warning(
-          'Overriding previous measurement %s value of %s with %s, the old '
-          'value will be lost.  Use a dimensioned measurement if you need to '
-          'save multiple values.', self.name, self.stored_value, value)
+      # _LOG.warning(
+      #     'Overriding previous measurement %s value of %s with %s, the old '
+      #     'value will be lost.  Use a dimensioned measurement if you need to '
+      #     'save multiple values.', self.name, self.stored_value, value)
+      pass
     if value is None:
       _LOG.warning('Measurement %s is set to None', self.name)
     self.stored_value = value
@@ -704,9 +705,9 @@ class DimensionedMeasuredValue(object):
 
     try:
       if coordinates in self.value_dict:
-        _LOG.warning(
-            'Overriding previous measurement %s[%s] value of %s with %s',
-            self.name, coordinates, self.value_dict[coordinates], value)
+        # _LOG.warning(
+        #     'Overriding previous measurement %s[%s] value of %s with %s',
+        #     self.name, coordinates, self.value_dict[coordinates], value)
         self._cached_basetype_values = None
       elif self._cached_basetype_values is not None:
         self._cached_basetype_values.append(
